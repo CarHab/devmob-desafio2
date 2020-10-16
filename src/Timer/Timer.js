@@ -28,6 +28,9 @@ const useStyles = makeStyles(theme => ({
   table: {
     maxWidth: 500,
   },
+  coluna: {
+    fontWeight: "bold",
+  },
 }));
 
 function Timer() {
@@ -123,9 +126,15 @@ function Timer() {
             <Table size="small">
               <TableHead>
                 <TableRow>
-                  <TableCell align="left">Volta</TableCell>
-                  <TableCell align="center">Tempo</TableCell>
-                  <TableCell align="center">Diferença</TableCell>
+                  <TableCell align="left">
+                    <span className={classes.coluna}>Volta</span>
+                  </TableCell>
+                  <TableCell align="center">
+                    <span className={classes.coluna}>Tempo</span>
+                  </TableCell>
+                  <TableCell align="center">
+                    <span className={classes.coluna}>Diferença</span>
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

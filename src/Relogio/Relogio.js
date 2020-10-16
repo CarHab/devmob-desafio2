@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import cityTimezones from "city-timezones";
-import { Typography, Button, TextField } from "@material-ui/core";
+import { Typography, Button, TextField, Divider } from "@material-ui/core";
 import countriesPt from "../Util/countriesPt.json";
 import countriesEn from "../Util/countriesEn.json";
 
@@ -31,6 +31,12 @@ const useStyles = makeStyles(theme => ({
   },
   hora: {
     color: "red",
+  },
+  divider: {
+    margin: "auto",
+    marginBottom: 20,
+    marginTop: 20,
+    width: "50%",
   },
 }));
 
@@ -100,10 +106,17 @@ const Relogio = () => {
       {obj.length > 0 ? (
         obj.map((item, index) => {
           return (
-            <Typography align="center" key={index} className={classes.texto}>
-              São <span className={classes.hora}>{`${item.hora || ""}`}</span>{" "}
-              em {`${item.cidade}, ${translate(item.pais)}`}
-            </Typography>
+            <div key={index}>
+              <Typography align="center" className={classes.texto}>
+                São <span className={classes.hora}>{`${item.hora || ""}`}</span>{" "}
+                em {`${item.cidade}, ${translate(item.pais)}`}
+              </Typography>
+              {index + 1 === obj.length ? (
+                ""
+              ) : (
+                <Divider className={classes.divider} variant="middle" />
+              )}
+            </div>
           );
         })
       ) : (
