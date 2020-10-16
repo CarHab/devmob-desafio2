@@ -1,6 +1,9 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
+import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import PauseIcon from "@material-ui/icons/Pause";
+import StopIcon from "@material-ui/icons/Stop";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,7 +32,7 @@ const BtnComponent = props => {
           color="primary"
           onClick={start}
         >
-          Start
+          <PlayArrowIcon />
         </Button>
       ) : (
         ""
@@ -43,7 +46,7 @@ const BtnComponent = props => {
             color="primary"
             onClick={stop}
           >
-            Stop
+            <PauseIcon />
           </Button>
           <Button
             className={classes.btn}
@@ -51,7 +54,7 @@ const BtnComponent = props => {
             color="primary"
             onClick={reset}
           >
-            Reset
+            <StopIcon />
           </Button>
           <Button
             className={classes.btn}
@@ -74,7 +77,7 @@ const BtnComponent = props => {
             color="primary"
             onClick={start}
           >
-            Resume
+            <PlayArrowIcon />
           </Button>
           <Button
             className={classes.btn}
@@ -82,7 +85,7 @@ const BtnComponent = props => {
             color="primary"
             onClick={reset}
           >
-            Reset
+            <StopIcon />
           </Button>
         </div>
       ) : (

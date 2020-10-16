@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Button } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
+import PlayArrow from "@material-ui/icons/PlayArrow";
+import StopIcon from "@material-ui/icons/Stop";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,18 +29,45 @@ const Temporizador = () => {
   const [started, setStarted] = useState(false);
 
   const handleChangeHora = e => {
-    setTemp({ h: e.target.value, m: temp.m, s: temp.s });
+    let { value } = e.target;
+    if (value < 0 || !Number(value)) value = 0;
+    return setTemp({ h: Number(value), m: temp.m, s: temp.s });
   };
 
   const handleChangeMinuto = e => {
-    setTemp({ h: temp.h, m: e.target.value, s: temp.s });
+    let { value } = e.target;
+    value = Number(value);
+    if (value > 59) {
+      let horas = Math.floor(value / 60);
+      let resto = value % 60;
+      return setTemp(oldTemp => ({
+        h: oldTemp.h + horas,
+        m: resto,
+        s: oldTemp.s,
+      }));
+    }
+    if (value < 0 || !Number(value)) value = 0;
+    return setTemp({ h: temp.h, m: Number(value), s: temp.s });
   };
 
   const handleChangeSegundo = e => {
-    setTemp({ h: temp.h, m: temp.m, s: e.target.value });
+    let { value } = e.target;
+    value = Number(value);
+    if (value > 59) {
+      let mins = Math.floor(value / 60);
+      let resto = value % 60;
+      return setTemp(oldTemp => ({
+        h: oldTemp.h,
+        m: oldTemp.m + mins,
+        s: resto,
+      }));
+    }
+    if (value < 0 || !Number(value)) value = 0;
+    return setTemp({ h: temp.h, m: temp.m, s: Number(value) });
   };
 
   const handleStart = () => {
+    if (temp.h === 0 && temp.m === 0 && temp.s === 0) return;
     setHoras(temp.h);
     setMinutos(temp.m);
     setSegundos(temp.s);
@@ -46,8 +75,15 @@ const Temporizador = () => {
     setStarted(true);
   };
 
+  const handleStop = () => {
+    setStarted(false);
+    setHoras(0);
+    setMinutos(0);
+    setSegundos(0);
+  };
+
   const updateTime = useCallback(() => {
-    if (horas === 0 && minutos === 0 && segundos === 0) {
+    if (horas <= 0 && minutos <= 0 && segundos <= 0) {
       setSegundos(0);
       setMinutos(0);
       setHoras(0);
@@ -87,6 +123,8 @@ const Temporizador = () => {
           variant="outlined"
           size="small"
           onChange={handleChangeHora}
+          type="number"
+          min="0"
         />
         <TextField
           value={temp.m || ""}
@@ -95,6 +133,8 @@ const Temporizador = () => {
           variant="outlined"
           size="small"
           onChange={handleChangeMinuto}
+          type="number"
+          min="0"
         />
         <TextField
           value={temp.s || ""}
@@ -103,10 +143,17 @@ const Temporizador = () => {
           variant="outlined"
           size="small"
           onChange={handleChangeSegundo}
+          type="number"
         />
-        <Button onClick={handleStart} variant="contained" color="primary">
-          Start
-        </Button>
+        {started ? (
+          <Button onClick={handleStop} variant="contained" color="primary">
+            <StopIcon />
+          </Button>
+        ) : (
+          <Button onClick={handleStart} variant="contained" color="primary">
+            <PlayArrow />
+          </Button>
+        )}
       </div>
       <div className={classes.root}>
         <p className={classes.tempo}>{horas >= 10 ? horas : "0" + horas}</p>
