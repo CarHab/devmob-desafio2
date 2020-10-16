@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import cityTimezones from "city-timezones";
-import { Button, TextField } from "@material-ui/core";
+import { Typography, Button, TextField } from "@material-ui/core";
 import countriesPt from "../Util/countriesPt.json";
 import countriesEn from "../Util/countriesEn.json";
 
@@ -25,7 +25,6 @@ const useStyles = makeStyles(theme => ({
   },
   texto: {
     fontSize: 30,
-    textAlign: "center",
   },
   margem: {
     margin: 5,
@@ -101,10 +100,10 @@ const Relogio = () => {
       {obj.length > 0 ? (
         obj.map((item, index) => {
           return (
-            <div key={index} className={classes.texto}>
+            <Typography align="center" key={index} className={classes.texto}>
               São <span className={classes.hora}>{`${item.hora || ""}`}</span>{" "}
               em {`${item.cidade}, ${translate(item.pais)}`}
-            </div>
+            </Typography>
           );
         })
       ) : (

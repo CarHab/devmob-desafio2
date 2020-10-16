@@ -2,6 +2,13 @@ import React, { useState } from "react";
 import DisplayComponent from "./DisplayComponent";
 import BtnComponent from "./BtnComponent";
 import { makeStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -19,11 +26,11 @@ const useStyles = makeStyles(theme => ({
     fontSize: 60,
   },
   table: {
-    border: "1px solid black",
+    maxWidth: 500,
   },
 }));
 
-function Timer(props) {
+function Timer() {
   const classes = useStyles();
   const [time, setTime] = useState({ ms: 0, s: 0, m: 0, h: 0 });
   const [interv, setInterv] = useState();
@@ -111,32 +118,40 @@ function Timer(props) {
       <DisplayComponent time={time} />
 
       {parciais.length > 0 ? (
-        <table className={classes.table}>
-          <thead>
-            <tr>
-              <th className={classes.table}>Volta</th>
-              <th className={classes.table}>Tempo</th>
-              <th className={classes.table}>Diferença</th>
-            </tr>
-          </thead>
-          {parciais.map((item, index) => {
-            return (
-              <tbody key={index}>
-                <tr>
-                  <td className={classes.table}>{index + 1}</td>
-                  <td className={classes.table}>{`${("0" + item.h).slice(
-                    -2
-                  )}:${("0" + item.m).slice(-2)}:${("0" + item.s).slice(-2)}:${(
-                    "0" + item.ms
-                  ).slice(-2)}`}</td>
-                  <td className={classes.table}>
-                    {getDiferenca(parciais[index - 1], parciais[index])}
-                  </td>
-                </tr>
-              </tbody>
-            );
-          })}
-        </table>
+        <div className={classes.root}>
+          <TableContainer className={classes.table} component={Paper}>
+            <Table size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell align="left">Volta</TableCell>
+                  <TableCell align="center">Tempo</TableCell>
+                  <TableCell align="center">Diferença</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {parciais.map((item, index) => (
+                  <TableRow key={index}>
+                    <TableCell component="th" scope="row">
+                      {index + 1}
+                    </TableCell>
+                    <TableCell align="center">
+                      {`${("0" + item.h).slice(-2)}:${("0" + item.m).slice(
+                        -2
+                      )}:${("0" + item.s).slice(-2)}:${("0" + item.ms).slice(
+                        -2
+                      )}`}
+                    </TableCell>
+                    <TableCell align="center">
+                      {index === 0
+                        ? "00:00:00:00"
+                        : getDiferenca(parciais[index - 1], parciais[index])}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
       ) : (
         ""
       )}

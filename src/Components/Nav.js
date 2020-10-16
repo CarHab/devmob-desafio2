@@ -48,6 +48,9 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
   },
+  nav: {
+    alignItems: "center",
+  },
 }));
 
 export default function Nav() {
@@ -60,7 +63,7 @@ export default function Nav() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar className={classes.nav} position="static">
         <Tabs value={value} onChange={handleChange}>
           <Tab label="Relógio" {...a11yProps(0)} />
           <Tab label="Cronômetro" {...a11yProps(1)} />
